@@ -23,7 +23,36 @@ app.get("/", function (req, res) {
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
+app.get("/api/:date?",function(req, res, next){
+  var reg = /^\d+\.?\d*$/;
+  if(req.params.date === undefined){
+    req.time = new Date()
 
+  next()
+  }
+else if (reg.test(req.params.date)) {
+  req.time = new Date(Number(req.params.date))
+
+  next()
+} else {
+  req.time = new Date(req.params.date)
+
+  next()
+}
+}, function(req, res){
+  console.log(typeof req.time)
+  if (isNaN(req.time)){
+    res.json({
+      error: "Invalid Date"
+    })
+  } else {
+  res.json({
+    unix: req.time.getTime(),
+    utc: req.time.toUTCString()
+  })
+
+}
+})
 
 
 // listen for requests :)
