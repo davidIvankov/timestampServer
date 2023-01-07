@@ -40,7 +40,6 @@ else if (reg.test(req.params.date)) {
   next()
 }
 }, function(req, res){
-  console.log(typeof req.time)
   if (isNaN(req.time)){
     res.json({
       error: "Invalid Date"
